@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->boolean('estado')->default(true);
+            $table->foreignId('usuario_id')->constrained('users');
             $table->timestamps();
         });
     }

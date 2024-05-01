@@ -137,7 +137,8 @@
                             </ul>
                         </li> --}}
                         <li class="nav-item">
-                            <a href="{{ url('/categorias') }}" class="nav-link">
+                            <a href="{{ url('/categorias') }}"
+                                class="nav-link {{ request()->is('categorias*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Categorias
@@ -146,7 +147,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('/tags') }}"
+                                class="nav-link {{ request()->is('tags*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-hashtag"></i>
                                 <p>
                                     Tags
@@ -154,10 +156,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('/posts') }}"
+                                class="nav-link {{ request()->is('posts*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>
-                                    Blogs
+                                    Posts
                                     <span class="right badge badge-danger">New</span>
                                 </p>
                             </a>
