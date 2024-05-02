@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        @include('includes.alertas')
+
     </div>
 
     <div class="content">
@@ -49,21 +49,25 @@
                                 <div class="form-group">
                                     <label for="categoria_id">Categoria</label>
                                     <select name="categoria_id" id="categoria_id" class="form-control">
-                                        <option value="">Seleccione</option>
+                                        <option value="">Seleccione...</option>
                                         @foreach ($categorias as $cate)
-                                            <option value="{{ old($cate->id) }}">{{ $cate->nombre }}</option>
+                                            <option value="{{ $cate->id }}"
+                                                @if ($cate->id == old('categoria_id')) selected @endif>{{ $cate->nombre }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('categoria_id')
-                                        <small class="text-danger">{{ old($message) }}</small>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="tags">Tags</label>
-                                    <select name="tags" id="categoria_id" class="form-control" multiple>
+                                    <label for="tags">#Tags</label>
+                                    <select name="tags[]" id="tags" class="form-control" multiple>
                                         <option value="">Seleccione</option>
                                         @foreach ($tags as $ta)
-                                            <option value="{{ old($ta->nombre) }}">{{ $ta->nombre }}</option>
+                                            <option
+                                                value="{{ $ta->nombre }}"@if (old('tags') && in_array($ta->nombre, old('tags'))) selected @endif>
+                                                {{ $ta->nombre }}</option>
                                         @endforeach
                                     </select>
                                     @error('tags')
@@ -76,7 +80,8 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="fecha_publicacion">Fecha de Publicacion</label>
-                                    <input type="datetime-local" name="fecha_publicacion" class="form-control">
+                                    <input type="datetime-local" name="fecha_publicacion"
+                                        value="{{ old('fecha_publicacion') }}" class="form-control">
                                     @error('fecha_publicacion')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -86,11 +91,11 @@
                                         <input type="checkbox" name="estado" class="custom-control-input"
                                             id="customSwitch1">
                                         <label for="customSwitch1" class="custom-control-label">Publicar?</label>
-
+                                        @error('estado')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
-                                    @error('estado')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+
                                 </div>
                                 <div class="text-center">
 
@@ -109,22 +114,24 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="resumen">Resumen del post</label>
-                                    <textarea name="resumen" id="resumen" cols="30" rows="3" class="form-control"></textarea>
+                                    <textarea name="resumen" id="resumen" cols="30" rows="3" class="form-control">{{ old('resumen') }}</textarea>
+                                    @error('resumen')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                                @error('resumen')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
+
                             </div>
                         </div>
                         <div class="card m-1">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="contenido">Contenido del post</label>
-                                    <textarea name="contenido" id="contenido" cols="30" rows="15" class="form-control"></textarea>
+                                    <textarea name="contenido" id="contenido" cols="30" rows="15" class="form-control">{{ old('contenido') }}</textarea>
+                                    @error('contenido')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                                @error('contenido')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
+
 
                             </div>
                         </div>
@@ -133,4 +140,24 @@
             </div>
         </form>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#contenido').summernote({
+                placeholder: 'En que esta pensando?...',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
 @endsection
